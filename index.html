@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nuestra Invitación</title>
+
+    <!-- METATAGS PARA MINIATURA DE WHATSAPP -->
+    <meta property="og:title" content="Nuestra Invitación">
+    <meta property="og:description" content="¡Estás invitado a nuestra boda! Haz click para ver los detalles.">
+    <meta property="og:image" content="miniatura.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #F8F4F2;
+            font-family: 'Cinzel', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* MARCO DE CELULAR ADAPTABLE */
+        .mobile-screen {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+            background-color: #F8F4F2;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        /* SCROLL INTERIOR SIN BARRA VISIBLE */
+        .invitation-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            background-color: #F8F4F2;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .invitation-wrapper.open-portada {
+            opacity: 1;
+        }
+
+        .invitation-wrapper::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* ESTILOS DE IMÁGENES */
+        .image-section {
+            width: 100%;
+            background-color: #F8F4F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .image-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* PORTADA */
+        .portada-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            width: 100%;
+        }
+
+        .portada-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transform: translateY(0);
+            transition: transform 1.8s ease-out, opacity 1.8s ease-out;
+        }
+
+        .open-portada .portada-section img {
+            opacity: 1;
+            animation: floatPortada 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatPortada {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-6px) scale(1.005); }
+        }
+
+        /* ESTILOS DEL CONTADOR */
+        .contador-section {
+            width: 100%;
+            padding: 30px 15px 40px 15px;
+            text-align: center;
+            background-color: #F8F4F2;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .tiempo {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .unidad {
+            min-width: 70px;
+        }
+
+        .numero {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 50px;
+            line-height: 1;
+            color: #8F3D24;
+            font-weight: 500;
+        }
+
+        .texto {
+            margin-top: 7px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #A85237;
+        }
+
+        .separador {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            color: #A85237;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        /* SECCIÓN BOTÓN DE UBICACIÓN */
+        .location-button-section {
+            width: 100%;
+            padding: 15px 20px 45px 20px;
+            background-color: #F8F4F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-location {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #A85237 0%, #8F3D24 50%, #702A16 100%);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(143, 61, 36, 0.5), 0 0 25px rgba(143, 61, 36, 0.3);
+            animation: glowGlow 2.5s infinite alternate;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes glowGlow {
+            0% {
+                box-shadow: 0 4px 12px rgba(143, 61, 36, 0.4), 0 0 10px rgba(143, 61, 36, 0.2);
+            }
+            100% {
+                box-shadow: 0 6px 20px rgba(143, 61, 36, 0.8), 0 0 28px rgba(143, 61, 36, 0.5);
+            }
+        }
+
+        .btn-location:active {
+            transform: scale(0.96);
+        }
+
+        .btn-location svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+        }
+
+        /* REGALO CON BOTÓN MÁS LARGO Y POSICIONADO */
+        .gift-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .btn-mesa-overlay {
+            position: absolute;
+            bottom: 8.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #A85237 0%, #8F3D24 50%, #702A16 100%);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 12px 42px;
+            width: 65%;
+            max-width: 250px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(143, 61, 36, 0.8);
+            animation: glowGlow 2.5s infinite alternate;
+            transition: all 0.3s ease;
+            z-index: 5;
+            white-space: nowrap;
+        }
+
+        .btn-mesa-overlay:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        /* SECCIÓN DE ITINERARIO INTERACTIVO */
+        .itinerario-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 25px 15px 35px;
+            font-family: "Cinzel", Georgia, serif;
+            background-color: #F8F4F2;
+        }
+
+        .itinerario {
+            position: relative;
+            width: 100%;
+        }
+
+        .evento {
+            display: grid;
+            grid-template-columns: 1fr 34px 1fr;
+            align-items: center;
+            min-height: 105px;
+            position: relative;
+        }
+
+        .linea {
+            height: 100%;
+            min-height: 105px;
+            width: 1px;
+            background: rgba(132, 106, 82, 0.38);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .punto {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #846a52;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.9);
+        }
+
+        .contenido {
+            display: flex;
+            align-items: center;
+            min-height: 105px;
+        }
+
+        .contenido.izquierda {
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+
+        .contenido.derecha {
+            justify-content: flex-start;
+            padding-left: 20px;
+        }
+
+        .icono {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .icono img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            display: block;
+            opacity: 0.85;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .icono:hover img {
+            transform: scale(1.08);
+            opacity: 1;
+        }
+
+        .texto-itinerario {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            max-width: 180px;
+        }
+
+        .texto-izquierda {
+            text-align: right;
+            align-items: flex-end;
+        }
+
+        .hora {
+            font-family: "Cinzel", Georgia, serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #765640;
+            line-height: 1.2;
+        }
+
+        .momento {
+            font-family: "Cinzel", Georgia, serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+            color: #665b54;
+            text-transform: uppercase;
+        }
+
+        .descripcion {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10.5px;
+            font-weight: 400;
+            color: #8c7b70;
+            line-height: 1.35;
+            margin-top: 2px;
+        }
+
+        /* ESTILOS DEL CARRUSEL DE FOTOS CON ALTURA DINÁMICA Y AL RAS */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: #F8F4F2;
+            transition: height 0.8s ease-in-out; /* Adapta la altura suavemente según la foto */
+        }
+
+        .slider-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .slider-container img.active {
+            opacity: 1;
+        }
+
+        /* ANIMACIÓN DE ENTRADA GENERAL */
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(40px) scale(0.97);
+            transition: opacity 1.4s ease-out, transform 1.4s ease-out;
+        }
+
+        .reveal-section.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .gallery-reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.88);
+            transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ESTILOS FORMULARIO RSVP (TERRACOTA) */
+        .rsvp-container-wrapper {
+            width: 100%;
+            background-color: #F8F4F2;
+            padding: 10px 20px 60px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tarjeta-asistencia {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid #C86D51;
+            border-radius: 25px;
+            padding: 35px 28px;
+            box-shadow: 0 15px 45px rgba(200, 109, 81, 0.18);
+            font-family: 'Montserrat', sans-serif;
+            color: #4A2E2B;
+        }
+
+        .grupo {
+            margin-bottom: 24px;
+        }
+
+        .etiqueta {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: #C86D51;
+            margin-bottom: 9px;
+            font-weight: 600;
+        }
+
+        .tarjeta-asistencia input[type="text"],
+        .tarjeta-asistencia textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 12px;
+            border: 1px solid #E2BBAF;
+            background: #FFFDFB;
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+            color: #4A2E2B;
+            font-size: 14px;
+        }
+
+        .tarjeta-asistencia input[type="text"]:focus,
+        .tarjeta-asistencia textarea:focus {
+            border-color: #C86D51;
+        }
+
+        .tarjeta-asistencia textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .opciones {
+            display: flex;
+            gap: 12px;
+        }
+
+        .opcion {
+            flex: 1;
+        }
+
+        .opcion input {
+            display: none;
+        }
+
+        .opcion label {
+            display: block;
+            text-align: center;
+            padding: 13px 8px;
+            border: 1px solid #E2BBAF;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            background: #FFFDFB;
+            color: #6E483D;
+            transition: .2s;
+        }
+
+        .opcion input:checked + label {
+            background: #F8ECE8;
+            border-color: #C86D51;
+            color: #C86D51;
+            font-weight: 600;
+        }
+
+        .boton-confirmar {
+            width: 100%;
+            border: 0;
+            border-radius: 30px;
+            padding: 16px;
+            background: linear-gradient(135deg, #D98268, #C86D51, #964228);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(200, 109, 81, 0.35);
+            transition: opacity 0.2s;
+        }
+
+        .boton-confirmar:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .mensaje {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 15px;
+            background: #FFF5F2;
+            border: 1px solid #E2BBAF;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #4A2E2B;
+        }
+
+        .mensaje.visible {
+            display: block;
+        }
+
+        /* SOBRE */
+        .envelope-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            cursor: pointer;
+            perspective: 1200px;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #F8F4F2;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('sobre.jpg');
+            background-size: cover;
+            background-position: center;
+            backface-visibility: hidden;
+            transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .envelope-flap-top {
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            transform-origin: top;
+            z-index: 5;
+        }
+
+        .envelope-flap-bottom {
+            clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+            transform-origin: bottom;
+            z-index: 3;
+        }
+
+        .envelope-flap-left {
+            clip-path: polygon(0 0, 0 100%, 50% 50%);
+            transform-origin: left;
+            z-index: 2;
+        }
+
+        .envelope-flap-right {
+            clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+            transform-origin: right;
+            z-index: 2;
+        }
+
+        .center-group {
+            position: absolute;
+            top: 61.5%;
+            left: 66%;
+            transform: translate(-50%, -50%);
+            z-index: 6;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .view-text {
+            font-size: 11px;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            background: rgba(143, 61, 36, 0.85);
+            padding: 8px 18px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+        }
+
+        .open .envelope-flap-top { transform: rotateX(180deg); }
+        .open .envelope-flap-bottom { transform: rotateX(-180deg); }
+        .open .envelope-flap-left { transform: rotateY(-180deg); }
+        .open .envelope-flap-right { transform: rotateY(180deg); }
+
+        .open .center-group {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.85);
+            visibility: hidden;
+        }
+
+        .open.envelope-container {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 1.2s ease 1s, visibility 1.2s ease 1s;
+        }
+
+        @media (max-width: 480px) {
+            .tarjeta-asistencia { padding: 30px 20px; }
+
+            .itinerario-container { padding: 20px 8px 30px; }
+            .evento { grid-template-columns: 1fr 28px 1fr; min-height: 105px; }
+            .linea { min-height: 105px; }
+            .contenido.izquierda { padding-right: 12px; }
+            .contenido.derecha { padding-left: 12px; }
+            .icono { width: 36px; height: 36px; }
+            .icono img { width: 32px; height: 32px; }
+            .hora { font-size: 14px; }
+            .momento { font-size: 13px; }
+            .descripcion { font-size: 9.5px; }
+            .texto-itinerario { max-width: 140px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <audio id="bg-music" src="cancion.mp3" loop></audio>
+
+    <div class="invitation-wrapper" id="invitation">
+
+        <!-- 1. PORTADA -->
+        <div class="image-section portada-section">
+            <img src="portada.jpg" alt="Portada">
+        </div>
+
+        <!-- 2. FECHA -->
+        <div class="image-section reveal-section">
+            <img src="fecha.jpg" alt="Fecha">
+        </div>
+
+        <!-- 3. CONTADOR -->
+        <div class="contador-section reveal-section">
+            <div class="tiempo">
+                <div class="unidad">
+                    <div class="numero" id="dias">00</div>
+                    <div class="texto">Días</div>
+                </div>
+
+                <div class="separador">:</div>
+
+                <div class="unidad">
+                    <div class="numero" id="horas">00</div>
+                    <div class="texto">Horas</div>
+                </div>
+
+                <div class="separador">:</div>
+
+                <div class="unidad">
+                    <div class="numero" id="minutos">00</div>
+                    <div class="texto">Minutos</div>
+                </div>
+
+                <div class="separador">:</div>
+
+                <div class="unidad">
+                    <div class="numero" id="segundos">00</div>
+                    <div class="texto">Segundos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. CEREMONIA Y UBICACIÓN -->
+        <div class="image-section reveal-section">
+            <img src="ceremonia.jpg" alt="Ceremonia">
+        </div>
+
+        <div class="location-button-section reveal-section">
+            <a href="https://www.google.com/maps?vet=10CAAQoqAOahcKEwjAw9Ldk--WAxUAAAAAHQAAAAAQDg..i&rlz=1C1CHBF_esMX838MX838&fvr=1&pvq=Cg0vZy8xMWcxMHE4a2RsIl4KWEhhY2llbmRhIGxvcyBQb3RyZXJvcyBDYXJyLiBhIEN1YXVodMOpbW9jIEtpbMOzbWV0cm8gMTMuNSwgMzEyMjMgVGVsw6lmb25vOiA2MTQgMTE4IDQ0ODQQAhgD&lqi=CmlIYWNpZW5kYSBsb3MgUG90cmVyb3MgQ2Fyci4gYSBDdWF1aHTDqW1vYyBLaWzDs21ldHJvIDEzLjUsIDMxMjIzIEVsIEZyZXNubywgQ2hpaC4gVGVsw6lmb25vOiA2MTQgMTE4IDQ0ODRIkouRi4SugIAIWpQBEAAQARACEAMQBBAFEAYQBxAIEAwQDRAOEA8YABgBGAIYAxgFGAYYBxgIGAoYCyJkaGFjaWVuZGEgbG9zIHBvdHJlcm9zIGNhcnIgYSBjdWF1aHTDqW1vYyBraWzDs21ldHJvIDEzLjUgMzEyMjMgZWwgZnJlc25vIGNoaWggdGVsw6lmb25vIDYxNCAxMTggNDQ4NJIBFmZ1bmN0aW9uX3Jvb21fZmFjaWxpdHk&cs=0&um=1&ie=UTF-8&fb=1&gl=mx&sa=X&ftid=0x86ea676e4d1b2591:0xd4d37c9f34ae7e1a" target="_blank" rel="noopener noreferrer" class="btn-location">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Ver ubicación
+            </a>
+        </div>
+
+        <!-- 5. GALERÍA -->
+        <div class="image-section gallery-reveal">
+            <img src="galeria.jpg" alt="Galería de Fotos">
+        </div>
+
+        <!-- 6. CARRUSEL DE FOTOS -->
+        <div class="gallery-reveal">
+            <div class="slider-container" id="slider">
+                <img src="https://i.imgur.com/DDSUlDz.jpeg" class="active">
+                <img src="https://i.imgur.com/9hp49Ai.jpeg">
+                <img src="https://i.imgur.com/Ilti32K.jpeg">
+                <img src="https://i.imgur.com/CCfWmvM.jpeg">
+                <img src="https://i.imgur.com/Gkp8FeV.jpeg">
+                <img src="https://i.imgur.com/spJutlT.jpeg">
+                <img src="https://i.imgur.com/hgQ8XV9.jpeg">
+                <img src="https://i.imgur.com/Gx5bgVX.jpeg">
+            </div>
+        </div>
+
+        <!-- 7. VESTIMENTA -->
+        <div class="image-section reveal-section">
+            <img src="vestimenta.jpg" alt="Vestimenta">
+        </div>
+
+        <!-- 8. REGALO CON BOTÓN ABAJO DE LIVERPOOL -->
+        <div class="image-section reveal-section gift-container">
+            <img src="regalo.jpg" alt="Regalo">
+            <a href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60043615" target="_blank" rel="noopener noreferrer" class="btn-mesa-overlay">
+                Ver mesa
+            </a>
+        </div>
+
+        <!-- 9. TÍTULO ITINERARIO -->
+        <div class="image-section reveal-section">
+            <img src="itinerario.jpg" alt="Itinerario">
+        </div>
+
+        <!-- 10. ITINERARIO INTERACTIVO -->
+        <section class="itinerario-container reveal-section">
+            <div class="itinerario">
+
+                <!-- 6:00 PM - CÓCTEL & SNACK DE BIENVENIDA -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/BjygJsG.png" alt="Cóctel & Snack">
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="texto-itinerario">
+                            <span class="hora">6:00 PM</span>
+                            <span class="momento">Cóctel & Snack</span>
+                            <span class="descripcion">Un momento para recibir a nuestros invitados y comenzar a celebrar juntos.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6:30 PM - CEREMONIA CIVIL -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="texto-itinerario texto-izquierda">
+                            <span class="hora">6:30 PM</span>
+                            <span class="momento">Ceremonia Civil</span>
+                            <span class="descripcion">El comienzo de nuestra nueva historia.</span>
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/OnrCkaO.png" alt="Ceremonia Civil">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7:30 PM - FOTOGRAFÍAS -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/52f2xOz.png" alt="Fotografías">
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="texto-itinerario">
+                            <span class="hora">7:30 PM</span>
+                            <span class="momento">Fotografías</span>
+                            <span class="descripcion">Fotografías de los novios y familiares.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8:00 PM - RECEPCIÓN DE INVITADOS -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="texto-itinerario texto-izquierda">
+                            <span class="hora">8:00 PM</span>
+                            <span class="momento">Recepción</span>
+                            <span class="descripcion">Los recibimos con mucha alegría.</span>
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/w80gej5.png" alt="Recepción">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8:20 PM - ENTRADA DE LOS NOVIOS -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/BSet1SA.png" alt="Entrada de los novios">
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="texto-itinerario">
+                            <span class="hora">8:20 PM</span>
+                            <span class="momento">Entrada de Novios</span>
+                            <span class="descripcion">¡Comienza la celebración!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8:40 PM - VALS DE LOS NOVIOS -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="texto-itinerario texto-izquierda">
+                            <span class="hora">8:40 PM</span>
+                            <span class="momento">Vals de Novios</span>
+                            <span class="descripcion">Nuestro primer baile como esposos.</span>
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/XHqP0Ug.png" alt="Vals de novios">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9:00 PM - PARTIDA DE PASTEL -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/S2LN7Ob.png" alt="Partida de pastel">
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="texto-itinerario">
+                            <span class="hora">9:00 PM</span>
+                            <span class="momento">Partida de Pastel</span>
+                            <span class="descripcion">Un momento dulce para compartir con todos nuestros seres queridos.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9:15 PM - COMIENZA EL BAILE -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="texto-itinerario texto-izquierda">
+                            <span class="hora">9:15 PM</span>
+                            <span class="momento">Comienza el Baile</span>
+                            <span class="descripcion">Música y mucha diversión.</span>
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/5ko4U5u.png" alt="Comienza el baile">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12:00 AM - TRASNOCHADOS -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/Ms5LIg4.png" alt="Trasnochados">
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="texto-itinerario">
+                            <span class="hora">12:00 AM</span>
+                            <span class="momento">Trasnochados</span>
+                            <span class="descripcion">Antojos para continuar la celebración.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12:50 AM - ÚLTIMA CANCIÓN & AGRADECIMIENTO -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="texto-itinerario texto-izquierda">
+                            <span class="hora">12:50 AM</span>
+                            <span class="momento">Última Canción</span>
+                            <span class="descripcion">Gracias por acompañarnos en este día tan especial.</span>
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/K5WxNW0.png" alt="Última canción">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1:00 AM - FIN DE LA RECEPCIÓN -->
+                <div class="evento">
+                    <div class="contenido izquierda">
+                        <div class="icono">
+                            <img src="https://i.imgur.com/FVudZlP.png" alt="Fin de la recepción">
+                        </div>
+                    </div>
+                    <div class="linea"><span class="punto"></span></div>
+                    <div class="contenido derecha">
+                        <div class="texto-itinerario">
+                            <span class="hora">1:00 AM</span>
+                            <span class="momento">Fin de Recepción</span>
+                            <span class="descripcion">Con mucho amor, gracias por ser parte de nuestra historia.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 11. NIÑOS -->
+        <div class="image-section reveal-section">
+            <img src="ninos.jpg" alt="No Niños">
+        </div>
+
+        <!-- 12. ASISTENCIA -->
+        <div class="image-section reveal-section">
+            <img src="asistencia.jpg" alt="Asistencia">
+        </div>
+
+        <!-- 13. FORMULARIO RSVP -->
+        <div class="rsvp-container-wrapper reveal-section">
+            <div class="tarjeta-asistencia">
+                <div class="grupo">
+                    <label class="etiqueta">Nombre completo</label>
+                    <input id="nombre" type="text" placeholder="Nombre y dos apellidos" autocomplete="name">
+                </div>
+
+                <div class="grupo">
+                    <label class="etiqueta">Asistencia</label>
+                    <div class="opciones">
+                        <div class="opcion">
+                            <input type="radio" name="asistencia" id="si" value="SI">
+                            <label for="si">Sí asistiré</label>
+                        </div>
+                        <div class="opcion">
+                            <input type="radio" name="asistencia" id="no" value="NO">
+                            <label for="no">No asistiré</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grupo">
+                    <label class="etiqueta">Mensaje para los novios <span style="font-size: 14px; font-weight: normal; font-style: italic;">(opcional)</span></label>
+                    <textarea id="mensajeNovios" placeholder="Escribe tus buenos deseos o felicitaciones..."></textarea>
+                </div>
+
+                <button class="boton-confirmar" id="boton" onclick="enviar()">Enviar confirmación</button>
+
+                <div id="mensaje" class="mensaje"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SOBRE -->
+    <div class="envelope-container" id="envelope" onclick="openEnvelope()">
+        <div class="flap envelope-flap-top"></div>
+        <div class="flap envelope-flap-bottom"></div>
+        <div class="flap envelope-flap-left"></div>
+        <div class="flap envelope-flap-right"></div>
+
+        <div class="center-group">
+            <div class="view-text">
+                Ver invitación
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let isOpen = false;
+    const music = document.getElementById("bg-music");
+    const wrapper = document.getElementById("invitation");
+
+    function openEnvelope() {
+        if (!isOpen) {
+            isOpen = true;
+            document.getElementById("envelope").classList.add("open");
+            wrapper.classList.add("open-portada");
+            
+            var playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(function(error) {
+                    console.log("Audio no reproducido automáticamente:", error);
+                });
+            }
+
+            checkScroll();
+        }
+    }
+
+    function checkScroll() {
+        const reveals = document.querySelectorAll('.reveal-section, .gallery-reveal');
+        const triggerBottom = wrapper.clientHeight * 0.9;
+
+        reveals.forEach(section => {
+            const sectionTop = section.getBoundingClientRect().top;
+            if (sectionTop < triggerBottom) {
+                section.classList.add('visible');
+            }
+        });
+    }
+
+    wrapper.addEventListener('scroll', checkScroll);
+
+    /* CARRUSEL CON ADAPTABILIDAD DINÁMICA DE ALTURA */
+    const slider = document.getElementById('slider');
+    const images = document.querySelectorAll('.slider-container img');
+    let current = 0;
+
+    function adjustSliderHeight() {
+        const activeImg = images[current];
+        if (activeImg.complete && activeImg.naturalHeight !== 0) {
+            slider.style.height = activeImg.clientHeight + 'px';
+        } else {
+            activeImg.onload = () => {
+                slider.style.height = activeImg.clientHeight + 'px';
+            };
+        }
+    }
+
+    adjustSliderHeight();
+    window.addEventListener('resize', adjustSliderHeight);
+
+    setInterval(() => {
+        images[current].classList.remove('active');
+        current = (current + 1) % images.length;
+        images[current].classList.add('active');
+        adjustSliderHeight();
+    }, 3000);
+
+    /* CONTADOR */
+    const fechaEvento = new Date("October 9, 2026 18:00:00").getTime();
+
+    function actualizarContador() {
+        const ahora = new Date().getTime();
+        const diferencia = fechaEvento - ahora;
+
+        if (diferencia <= 0) {
+            document.getElementById("dias").innerHTML = "00";
+            document.getElementById("horas").innerHTML = "00";
+            document.getElementById("minutos").innerHTML = "00";
+            document.getElementById("segundos").innerHTML = "00";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        document.getElementById("dias").innerHTML = String(dias).padStart(2, "0");
+        document.getElementById("horas").innerHTML = String(horas).padStart(2, "0");
+        document.getElementById("minutos").innerHTML = String(minutos).padStart(2, "0");
+        document.getElementById("segundos").innerHTML = String(segundos).padStart(2, "0");
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+
+    /* FORMULARIO RSVP Y CONEXIÓN CON APPS SCRIPT */
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxSe40jEh0AaM0FSkfff20dVef1NYecVhZHz--L79tINX4ehRTyIJb6RQ8nzejNxPdr/exec';
+
+    function llamarAPI(parametros) {
+        return new Promise((resolve, reject) => {
+            const callback = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 9999);
+            const script = document.createElement('script');
+            const query = new URLSearchParams({ ...parametros, callback });
+            const tiempo = setTimeout(() => { limpiar(); reject(); }, 15000);
+
+            window[callback] = function(data) {
+                clearTimeout(tiempo);
+                limpiar();
+                resolve(data);
+            };
+
+            function limpiar() {
+                delete window[callback];
+                if (script.parentNode) script.parentNode.removeChild(script);
+            }
+
+            script.onerror = function() {
+                clearTimeout(tiempo);
+                limpiar();
+                reject();
+            };
+
+            script.src = API_URL + '?' + query.toString();
+            document.body.appendChild(script);
+        });
+    }
+
+    async function enviar() {
+        const nombre = document.getElementById('nombre').value.trim();
+        const asistencia = document.querySelector('input[name="asistencia"]:checked')?.value || '';
+        const mensajeNovios = document.getElementById('mensajeNovios').value.trim();
+        const mensajeUI = document.getElementById('mensaje');
+        const boton = document.getElementById('boton');
+
+        if (!nombre) {
+            mostrarMensaje('Escribe tu nombre completo.');
+            return;
+        }
+        if (nombre.split(/\s+/).length < 3) {
+            mostrarMensaje('Escribe tu nombre y tus dos apellidos.');
+            return;
+        }
+        if (!asistencia) {
+            mostrarMensaje('Selecciona tu asistencia.');
+            return;
+        }
+
+        boton.disabled = true;
+        boton.textContent = 'Enviando...';
+        mensajeUI.className = 'mensaje';
+
+        try {
+            const respuesta = await llamarAPI({
+                accion: 'confirmar',
+                nombre: nombre,
+                asistencia: asistencia,
+                mensaje: mensajeNovios
+            });
+
+            if (!respuesta.ok) {
+                mostrarMensaje(respuesta.mensaje || 'Ocurrió un error al registrar tu respuesta.');
+                return;
+            }
+
+            if (asistencia === 'NO') {
+                mostrarMensaje('Lamentamos que no puedas acompañarnos, gracias por avisar.');
+            } else {
+                mostrarMensaje(respuesta.mensaje || '¡Muchas gracias por confirmar tu asistencia!');
+            }
+
+        } catch (error) {
+            console.error(error);
+            mostrarMensaje('No se pudo conectar con el sistema.');
+        } finally {
+            boton.disabled = false;
+            boton.textContent = 'Enviar confirmación';
+        }
+    }
+
+    function mostrarMensaje(texto) {
+        const mensaje = document.getElementById('mensaje');
+        mensaje.className = 'mensaje visible';
+        mensaje.textContent = texto;
+    }
+</script>
+
+</body>
+</html>
